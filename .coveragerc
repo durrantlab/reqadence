@@ -1,0 +1,11 @@
+[run]
+branch = true
+data_file = .coverage
+source = "tests"
+
+[paths]
+source = reqadence
+
+[report]
+show_missing = true
+skip_empty = true
