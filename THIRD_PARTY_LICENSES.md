@@ -1,22 +1,21 @@
-THIRD PARTY NOTICE
-==================
+# Third Party Notice
 
 This file lists the licenses of third-party software distributed with this
 project. License text is copied verbatim from the installed packages and is
 never generated or rewritten.
 
-========================================
-PACKAGES FROM THE INSTALLED ENVIRONMENT
-========================================
 
-----------------------------------------
-Package: aiolimiter
-Version: 1.2.1
-License: MIT
-Source: conda
+## Packages from the installed environment
 
---- LICENSE.txt ---
+### aiolimiter
 
+- **Version:** 1.2.1
+- **License:** MIT
+- **Source:** conda
+
+#### `LICENSE.txt`
+
+``` text
 MIT License
 
 Copyright (c) 2019 Martijn Pieters
@@ -39,15 +38,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+```
 
-----------------------------------------
-Package: anyio
-Version: 4.14.2
-License: MIT
-Source: conda
+### anyio
 
---- LICENSE ---
+- **Version:** 4.14.2
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 The MIT License (MIT)
 
 Copyright (c) 2018 Alex Grönholm
@@ -69,15 +70,17 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: bzip2
-Version: 1.0.8
-License: bzip2-1.0.6
-Source: conda
+### bzip2
 
---- LICENSE ---
+- **Version:** 1.0.8
+- **License:** bzip2-1.0.6
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 
 --------------------------------------------------------------------------
 
@@ -121,15 +124,17 @@ bzip2/libbzip2 version 1.0.8 of 13 July 2019
 
 --------------------------------------------------------------------------
 
+```
 
-----------------------------------------
-Package: ca-certificates
-Version: 2026.7.22
-License: ISC
-Source: conda
+### ca-certificates
 
---- LICENSE ---
+- **Version:** 2026.7.22
+- **License:** ISC
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 This package contains a modified version of ca-bundle.crt:
 
 ca-bundle.crt -- Bundle of CA Root Certificates
@@ -151,15 +156,17 @@ one at http://mozilla.org/MPL/2.0/.
 ***** END LICENSE BLOCK *****
 @(#) $RCSfile: certdata.txt,v $ $Revision: 1.80 $ $Date: 2011/11/03 15:11:58 $
 
+```
 
-----------------------------------------
-Package: certifi
-Version: 2026.7.22
-License: ISC
-Source: conda
+### certifi
 
---- LICENSE ---
+- **Version:** 2026.7.22
+- **License:** ISC
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 This package contains a modified version of ca-bundle.crt:
 
 ca-bundle.crt -- Bundle of CA Root Certificates
@@ -181,15 +188,17 @@ one at http://mozilla.org/MPL/2.0/.
 ***** END LICENSE BLOCK *****
 @(#) $RCSfile: certdata.txt,v $ $Revision: 1.80 $ $Date: 2011/11/03 15:11:58 $
 
+```
 
-----------------------------------------
-Package: exceptiongroup
-Version: 1.3.1
-License: MIT and PSF-2.0
-Source: conda
+### exceptiongroup
 
---- LICENSE ---
+- **Version:** 1.3.1
+- **License:** MIT and PSF-2.0
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 The MIT License (MIT)
 
 Copyright (c) 2022 Alex Grönholm
@@ -264,15 +273,17 @@ products or services of Licensee, or any third party.
 agrees to be bound by the terms and conditions of this License
 Agreement.
 
+```
 
-----------------------------------------
-Package: h11
-Version: 0.16.0
-License: MIT
-Source: conda
+### h11
 
---- LICENSE.txt ---
+- **Version:** 0.16.0
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE.txt`
+
+``` text
 The MIT License (MIT)
 
 Copyright (c) 2016 Nathaniel J. Smith <njs@pobox.com> and other contributors
@@ -296,15 +307,17 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: h2
-Version: 4.4.1
-License: MIT
-Source: conda
+### h2
 
---- LICENSE ---
+- **Version:** 4.4.1
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 The MIT License (MIT)
 
 Copyright (c) 2015-2020 Cory Benfield and contributors
@@ -327,15 +340,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: hishel
-Version: 1.3.1
-License: BSD-3-Clause
-Source: conda
+### hishel
 
---- LICENSE ---
+- **Version:** 1.3.1
+- **License:** BSD-3-Clause
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 Copyright © 2023, Karen Petrosyan.
 All rights reserved.
 
@@ -364,15 +379,17 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+```
 
-----------------------------------------
-Package: hpack
-Version: 4.2.0
-License: MIT
-Source: conda
+### hpack
 
---- LICENSE ---
+- **Version:** 4.2.0
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 The MIT License (MIT)
 
 Copyright (c) 2014 Cory Benfield
@@ -395,15 +412,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: httpcore
-Version: 1.0.9
-License: BSD-3-Clause
-Source: conda
+### httpcore
 
---- LICENSE.md ---
+- **Version:** 1.0.9
+- **License:** BSD-3-Clause
+- **Source:** conda
 
+#### `LICENSE.md`
+
+``` text
 Copyright © 2020, [Encode OSS Ltd](https://www.encode.io/).
 All rights reserved.
 
@@ -432,15 +451,17 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+```
 
-----------------------------------------
-Package: httpx
-Version: 0.28.1
-License: BSD-3-Clause
-Source: conda
+### httpx
 
---- LICENSE.md ---
+- **Version:** 0.28.1
+- **License:** BSD-3-Clause
+- **Source:** conda
 
+#### `LICENSE.md`
+
+``` text
 Copyright © 2019, [Encode OSS Ltd](https://www.encode.io/).
 All rights reserved.
 
@@ -454,15 +475,17 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+```
 
-----------------------------------------
-Package: hyperframe
-Version: 6.1.0
-License: MIT
-Source: conda
+### hyperframe
 
---- LICENSE ---
+- **Version:** 6.1.0
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 The MIT License (MIT)
 
 Copyright (c) 2014 Cory Benfield
@@ -485,15 +508,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: icu
-Version: 78.3
-License: MIT
-Source: conda
+### icu
 
---- LICENSE ---
+- **Version:** 78.3
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
@@ -1063,15 +1088,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+```
 
-----------------------------------------
-Package: idna
-Version: 3.18
-License: BSD-3-Clause
-Source: conda
+### idna
 
---- LICENSE.md ---
+- **Version:** 3.18
+- **License:** BSD-3-Clause
+- **Source:** conda
 
+#### `LICENSE.md`
+
+``` text
 BSD 3-Clause License
 
 Copyright (c) 2013-2026, Kim Davies and contributors.
@@ -1104,15 +1131,17 @@ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+```
 
-----------------------------------------
-Package: libcxx
-Version: 22.1.8
-License: Apache-2.0 WITH LLVM-exception
-Source: conda
+### libcxx
 
---- LICENSE.TXT ---
+- **Version:** 22.1.8
+- **License:** Apache-2.0 WITH LLVM-exception
+- **Source:** conda
 
+#### `LICENSE.TXT`
+
+``` text
 ==============================================================================
 The LLVM Project is under the Apache License v2.0 with LLVM Exceptions:
 ==============================================================================
@@ -1425,15 +1454,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: libexpat
-Version: 2.8.1
-License: MIT
-Source: conda
+### libexpat
 
---- COPYING ---
+- **Version:** 2.8.1
+- **License:** MIT
+- **Source:** conda
 
+#### `COPYING`
+
+``` text
 Copyright (c) 1998-2000 Thai Open Source Software Center Ltd and Clark Cooper
 Copyright (c) 2001-2025 Expat maintainers
 
@@ -1456,15 +1487,17 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: libffi
-Version: 3.7.0
-License: MIT
-Source: conda
+### libffi
 
---- LICENSE ---
+- **Version:** 3.7.0
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 libffi - Copyright (c) 1996-2026  Anthony Green, Red Hat, Inc and others.
 See source files for details.
 
@@ -1487,15 +1520,17 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: liblzma
-Version: 5.8.3
-License: 0BSD
-Source: conda
+### liblzma
 
---- COPYING ---
+- **Version:** 5.8.3
+- **License:** 0BSD
+- **Source:** conda
 
+#### `COPYING`
+
+``` text
 
 XZ Utils Licensing
 ==================
@@ -1567,9 +1602,11 @@ XZ Utils Licensing
     The contact information is in the README file.
 
 
+```
 
---- COPYING.0BSD ---
+#### `COPYING.0BSD`
 
+``` text
 Permission to use, copy, modify, and/or distribute this
 software for any purpose with or without fee is hereby granted.
 
@@ -1582,15 +1619,17 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+```
 
-----------------------------------------
-Package: libmpdec
-Version: 4.0.0
-License: BSD-2-Clause
-Source: conda
+### libmpdec
 
---- COPYRIGHT.txt ---
+- **Version:** 4.0.0
+- **License:** BSD-2-Clause
+- **Source:** conda
 
+#### `COPYRIGHT.txt`
+
+``` text
 Copyright (c) 2008-2024 Stefan Krah. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -1615,15 +1654,17 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 
+```
 
-----------------------------------------
-Package: libzlib
-Version: 1.3.2
-License: Zlib
-Source: conda
+### libzlib
 
---- LICENSE ---
+- **Version:** 1.3.2
+- **License:** Zlib
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 Copyright notice:
 
  (C) 1995-2026 Jean-loup Gailly and Mark Adler
@@ -1647,15 +1688,17 @@ Copyright notice:
   Jean-loup Gailly        Mark Adler
   jloup@gzip.org          madler@alumni.caltech.edu
 
+```
 
-----------------------------------------
-Package: loguru
-Version: 0.7.3
-License: MIT
-Source: conda
+### loguru
 
---- LICENSE ---
+- **Version:** 0.7.3
+- **License:** MIT
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 MIT License
 
 Copyright (c) 2017
@@ -1678,15 +1721,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+```
 
-----------------------------------------
-Package: msgpack-python
-Version: 1.2.1
-License: Apache-2.0
-Source: conda
+### msgpack-python
 
---- COPYING ---
+- **Version:** 1.2.1
+- **License:** Apache-2.0
+- **Source:** conda
 
+#### `COPYING`
+
+``` text
 Copyright (C) 2008-2011 INADA Naoki <songofacandy@gmail.com>
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -1702,14 +1747,16 @@ Copyright (C) 2008-2011 INADA Naoki <songofacandy@gmail.com>
    limitations under the License.
 
 
+```
 
-----------------------------------------
-Package: msgpack
-Version: 1.2.1
-Source: pypi
+### msgpack
 
---- COPYING ---
+- **Version:** 1.2.1
+- **Source:** pypi
 
+#### `COPYING`
+
+``` text
 Copyright (C) 2008-2011 INADA Naoki <songofacandy@gmail.com>
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -1725,15 +1772,17 @@ Copyright (C) 2008-2011 INADA Naoki <songofacandy@gmail.com>
    limitations under the License.
 
 
+```
 
-----------------------------------------
-Package: ncurses
-Version: 6.6
-License: X11 AND BSD-3-Clause
-Source: conda
+### ncurses
 
---- COPYING ---
+- **Version:** 6.6
+- **License:** X11 AND BSD-3-Clause
+- **Source:** conda
 
+#### `COPYING`
+
+``` text
 Copyright 2018-2024,2025 Thomas E. Dickey
 Copyright 1998-2017,2018 Free Software Foundation, Inc.
 
@@ -1764,15 +1813,17 @@ authorization.
 -- vile:txtmode fc=72
 -- $Id: COPYING,v 1.14 2025/01/04 10:53:46 tom Exp $
 
+```
 
-----------------------------------------
-Package: openssl
-Version: 3.6.3
-License: Apache-2.0
-Source: conda
+### openssl
 
---- LICENSE.txt ---
+- **Version:** 3.6.3
+- **License:** Apache-2.0
+- **Source:** conda
 
+#### `LICENSE.txt`
+
+``` text
 
                                  Apache License
                            Version 2.0, January 2004
@@ -1951,12 +2002,14 @@ Source: conda
 
    END OF TERMS AND CONDITIONS
 
+```
 
-----------------------------------------
-Package: python-abi
+### python-abi
 
---- LICENSE ---
 
+#### `LICENSE`
+
+``` text
 Copyright (c) 2015-2018, conda-forge
 All rights reserved.
 
@@ -1985,15 +2038,17 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+```
 
-----------------------------------------
-Package: python
-Version: 3.14.6
-License: Python-2.0
-Source: conda
+### python
 
---- LICENSE ---
+- **Version:** 3.14.6
+- **License:** Python-2.0
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 A. HISTORY OF THE SOFTWARE
 ==========================
 
@@ -2272,15 +2327,17 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 
+```
 
-----------------------------------------
-Package: readline
-Version: 8.3
-License: GPL-3.0-only
-Source: conda
+### readline
 
---- COPYING ---
+- **Version:** 8.3
+- **License:** GPL-3.0-only
+- **Source:** conda
 
+#### `COPYING`
+
+``` text
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -2956,14 +3013,16 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
 
+```
 
-----------------------------------------
-Package: reqadence
-Version: 0.1.dev0+d20260813143640
-Source: pypi
+### reqadence
 
---- LICENSE.md ---
+- **Version:** 0.1.dev0+d20260813143640
+- **Source:** pypi
 
+#### `LICENSE.md`
+
+``` text
 # Apache License
 
 *Version 2.0, January 2004*
@@ -3173,22 +3232,26 @@ identification within third-party archives.
     or implied. See the License for the specific language governing
     permissions and limitations under the License.
 
+```
 
-----------------------------------------
-Package: sniffio
-Version: 1.3.1
-License: Apache-2.0
-Source: conda
+### sniffio
 
---- LICENSE ---
+- **Version:** 1.3.1
+- **License:** Apache-2.0
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 This software is made available under the terms of *either* of the
 licenses found in LICENSE.APACHE2 or LICENSE.MIT. Contributions to are
 made under the terms of *both* these licenses.
 
+```
 
---- LICENSE.APACHE2 ---
+#### `LICENSE.APACHE2`
 
+``` text
 
                                  Apache License
                            Version 2.0, January 2004
@@ -3392,9 +3455,11 @@ made under the terms of *both* these licenses.
    See the License for the specific language governing permissions and
    limitations under the License.
 
+```
 
---- LICENSE.MIT ---
+#### `LICENSE.MIT`
 
+``` text
 The MIT License (MIT)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -3416,15 +3481,17 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+```
 
-----------------------------------------
-Package: tk
-Version: 8.6.13
-License: TCL
-Source: conda
+### tk
 
---- license.terms ---
+- **Version:** 8.6.13
+- **License:** TCL
+- **Source:** conda
 
+#### `license.terms`
+
+``` text
 This software is copyrighted by the Regents of the University of
 California, Sun Microsystems, Inc., Scriptics Corporation, ActiveState
 Corporation and other parties.  The following terms apply to all files
@@ -3466,12 +3533,14 @@ authors grant the U.S. Government and others acting in its behalf
 permission to use and distribute the software in accordance with the
 terms specified in this license.
 
+```
 
-----------------------------------------
-Package: typing-extensions
+### typing-extensions
 
---- LICENSE ---
 
+#### `LICENSE`
+
+``` text
 A. HISTORY OF THE SOFTWARE
 ==========================
 
@@ -3752,30 +3821,34 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 
+```
 
-----------------------------------------
-Package: tzdata
-Version: 2026c
-License: LicenseRef-Public-Domain
-Source: conda
+### tzdata
 
---- LICENSE ---
+- **Version:** 2026c
+- **License:** LicenseRef-Public-Domain
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 Unless specified below, all files in the tz code and data (including
 this LICENSE file) are in the public domain.
 
 If the files date.c, newstrftime.3, and strftime.c are present, they
 contain material derived from BSD and use the BSD 3-clause license.
 
+```
 
-----------------------------------------
-Package: zstd
-Version: 1.5.7
-License: BSD-3-Clause
-Source: conda
+### zstd
 
---- LICENSE ---
+- **Version:** 1.5.7
+- **License:** BSD-3-Clause
+- **Source:** conda
 
+#### `LICENSE`
+
+``` text
 BSD License
 
 For Zstandard software
@@ -3807,16 +3880,16 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+```
 
-========================================
-PACKAGES DOCUMENTED MANUALLY
-========================================
+## Packages documented manually
 
-----------------------------------------
-Package: libfreetype
+### libfreetype
 
---- FTL.TXT ---
 
+#### `FTL.TXT`
+
+``` text
                     The FreeType Project LICENSE
                     ----------------------------
 
@@ -3987,9 +4060,11 @@ Legal Terms
 
 --- end of FTL.TXT ---
 
+```
 
---- GPLv2.TXT ---
+#### `GPLv2.TXT`
 
+``` text
 		    GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
 
@@ -4331,12 +4406,14 @@ consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.
 
+```
 
-----------------------------------------
-Package: libfreetype6
+### libfreetype6
 
---- FTL.TXT ---
 
+#### `FTL.TXT`
+
+``` text
                     The FreeType Project LICENSE
                     ----------------------------
 
@@ -4507,9 +4584,11 @@ Legal Terms
 
 --- end of FTL.TXT ---
 
+```
 
---- GPLv2.TXT ---
+#### `GPLv2.TXT`
 
+``` text
 		    GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
 
@@ -4851,12 +4930,14 @@ consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.
 
+```
 
-----------------------------------------
-Package: libgcc
+### libgcc
 
---- COPYING.RUNTIME ---
 
+#### `COPYING.RUNTIME`
+
+``` text
 GCC RUNTIME LIBRARY EXCEPTION
 
 Version 3.1, 31 March 2009
@@ -4931,9 +5012,11 @@ presumption that third-party software is unaffected by the copyleft
 requirements of the license of GCC.
 
 
+```
 
---- COPYING3 ---
+#### `COPYING3`
 
+``` text
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -5609,12 +5692,14 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
 
+```
 
-----------------------------------------
-Package: libgfortran
+### libgfortran
 
---- COPYING.RUNTIME ---
 
+#### `COPYING.RUNTIME`
+
+``` text
 GCC RUNTIME LIBRARY EXCEPTION
 
 Version 3.1, 31 March 2009
@@ -5689,9 +5774,11 @@ presumption that third-party software is unaffected by the copyleft
 requirements of the license of GCC.
 
 
+```
 
---- COPYING3 ---
+#### `COPYING3`
 
+``` text
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -6367,12 +6454,14 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
 
+```
 
-----------------------------------------
-Package: libgfortran5
+### libgfortran5
 
---- COPYING.RUNTIME ---
 
+#### `COPYING.RUNTIME`
+
+``` text
 GCC RUNTIME LIBRARY EXCEPTION
 
 Version 3.1, 31 March 2009
@@ -6447,9 +6536,11 @@ presumption that third-party software is unaffected by the copyleft
 requirements of the license of GCC.
 
 
+```
 
---- COPYING3 ---
+#### `COPYING3`
 
+``` text
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -7125,15 +7216,17 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
 
+```
 
-----------------------------------------
-Package: libsqlite
-Version: 3.53.4
-License: blessing
-Source: conda
+### libsqlite
 
---- LICENSE.txt ---
+- **Version:** 3.53.4
+- **License:** blessing
+- **Source:** conda
 
+#### `LICENSE.txt`
+
+``` text
 SQLite is in the Public Domain.
 
 All of the code and documentation in SQLite has been dedicated to the public
@@ -7144,4 +7237,5 @@ means.
 
 See https://sqlite.org/copyright.html
 
+```
 
