@@ -4,7 +4,7 @@ description = "Async foundation for REST API clients with retries, rate limiting
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"
-license-files = ["LICENSE.md"]
+license-files = ["LICENSE.md","THIRD_PARTY_LICENSES.md"]
 authors = [
     {name = "Mayar Ahmed", email = "mma121@pitt.edu"},
     {name = "Jacob D. Durrant", email = "durrantj@pitt.edu"},

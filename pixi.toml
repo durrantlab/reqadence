@@ -24,6 +24,7 @@ httpx = ">=0.28.1,<0.29"
 aiolimiter = ">=1.2.1,<2"
 hishel = ">=1.3.1,<2"
 loguru = ">=0.7.3,<0.8"
+anysqlite = ">=0.0.5,<0.0.6"
 
 [feature.dev.dependencies]
 pytest = ">=9.1.1,<10"
@@ -34,6 +35,7 @@ colorama = ">=0.4.6,<0.5"
 basedpyright = ">=1.39.8,<2"
 ruff = ">=0.16.2,<0.17"
 twine = ">=7.0.0,<8"
+pytest-asyncio = ">=1.4.0,<2"
 
 [feature.dev.tasks]
 format = "ruff check --select I --fix --config .ruff.toml && ruff format --config .ruff.toml ./"
