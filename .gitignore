@@ -28,3 +28,4 @@ report.xml
 .coverage
 
 licenses
+reqadence/_version.py
