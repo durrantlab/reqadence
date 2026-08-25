@@ -73,7 +73,7 @@ asyncio.run(main())
 (`get_enriched_entry`), download structure files (`get_structure`), and resolve
 ligand SMILES (`get_ligand_smiles`). See the docstrings for the full API.
 
-To build a client for another service, subclass `BaseAPI` the same way as [`RCSBClient`](reqadence/api/rcsb/client.py).
+To build a client for another service, subclass `BaseAPI` the same way as [`RCSBClient`](https://github.com/durrantlab/reqadence/blob/main/reqadence/api/rcsb/client.py)
 
 ## Development
 
