@@ -4,13 +4,16 @@
 
 """RCSBClient Protein Data Bank API client and entry model."""
 
-from typing import Any, Callable
+import asyncio
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 import httpx
+from aiolimiter import AsyncLimiter
 from loguru import logger
 from pydantic import ValidationError
 
-from reqadence.api.base import BaseAPI
+from reqadence.api.base import BaseAPI, ClientConfig
 from reqadence.api.cache import AlwaysCachePolicy
 from reqadence.api.errors import PermanentAPIError
 from reqadence.api.rcsb.model import RCSBEntry
@@ -31,7 +34,10 @@ class RCSBClient(BaseAPI):
         self,
         base_url: str = RCSB_BASE_URL,
         client_factory: Callable[..., httpx.AsyncClient] | None = None,
-        **kwargs: Any,
+        *,
+        config: ClientConfig | None = None,
+        rate_limiter: AsyncLimiter | None = None,
+        sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
     ) -> None:
         """Initialize the RCSBClient with caching enabled by default.
 
@@ -41,7 +47,13 @@ class RCSBClient(BaseAPI):
         """
         if client_factory is None:
             client_factory = AlwaysCachePolicy().build_client_factory()
-        super().__init__(base_url=base_url, client_factory=client_factory, **kwargs)
+        super().__init__(
+            base_url=base_url,
+            client_factory=client_factory,
+            config=config,
+            rate_limiter=rate_limiter,
+            sleep=sleep,
+        )
 
     @staticmethod
     def _to_legacy(pdb_id: str) -> str | None:

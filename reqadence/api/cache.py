@@ -42,7 +42,7 @@ class CachePolicy(ABC):
     Default is .cache/hishel/hishel_cache.db"""
 
     @abstractmethod
-    def _build_hishel_policy(self) -> Any:
+    def _build_hishel_policy(self) -> SpecificationPolicy | FilterPolicy:
         """Return the hishel policy object for this strategy."""
         raise NotImplementedError()
 
@@ -66,13 +66,13 @@ class CachePolicy(ABC):
             default_ttl=self.default_ttl,
         )
 
-        def factory(**kwargs: Any) -> httpx.AsyncClient:
+        def factory(**kwargs: Any) -> httpx.AsyncClient:  # pyright: ignore[reportAny, reportExplicitAny]
             transport = AsyncCacheTransport(
                 next_transport=next_transport or httpx.AsyncHTTPTransport(),
                 storage=storage,
                 policy=cache_policy,
             )
-            return httpx.AsyncClient(transport=transport, **kwargs)
+            return httpx.AsyncClient(transport=transport, **kwargs)  # pyright: ignore[reportAny]
 
         return factory
 
@@ -86,7 +86,7 @@ class RFCCachePolicy(CachePolicy):
     """
 
     @override
-    def _build_hishel_policy(self) -> Any:
+    def _build_hishel_policy(self) -> SpecificationPolicy:
 
         return SpecificationPolicy(
             cache_options=CacheOptions(supported_methods=list(self.supported_methods))
@@ -100,7 +100,7 @@ class AlwaysCachePolicy(CachePolicy):
     cacheable_status_codes: frozenset[int] = frozenset({200})
 
     @override
-    def _build_hishel_policy(self) -> Any:
+    def _build_hishel_policy(self) -> FilterPolicy:
 
         methods = frozenset(m.upper() for m in self.supported_methods)
         codes = frozenset(self.cacheable_status_codes)
