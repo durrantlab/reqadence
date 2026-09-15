@@ -176,3 +176,79 @@ class RCSBEntry(BaseModel):
             "polymer": ids.polymer_entity_ids,
             "nonpolymer": ids.non_polymer_entity_ids,
         }
+
+
+class _ChemCompDescriptor(BaseModel):
+    """Primary SMILES descriptor block from a chemical component record."""
+
+    smiles: str | None = Field(
+        default=None,
+        alias="SMILES",
+        description="Canonical SMILES string for the chemical component.",
+    )
+    smiles_stereo: str | None = Field(
+        default=None,
+        alias="SMILES_stereo",
+        description="Stereochemistry-aware SMILES, if reported.",
+    )
+
+
+class _PdbxChemCompDescriptor(BaseModel):
+    """One row of the fallback pdbx_chem_comp_descriptor list."""
+
+    type: str = ""
+    """Descriptor type (e.g. ``SMILES_CANONICAL``)."""
+
+    descriptor: str = ""
+    """The descriptor string itself (e.g. a SMILES when ``type`` is a SMILES variant)."""
+
+
+class ChemComp(BaseModel):
+    """A parsed RCSB chemical component record."""
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(populate_by_name=True)
+
+    rcsb_chem_comp_descriptor: _ChemCompDescriptor | None = Field(
+        default=None,
+        description="Primary descriptor block; preferred SMILES source.",
+    )
+    pdbx_chem_comp_descriptor: list[_PdbxChemCompDescriptor] = Field(
+        default_factory=list,
+        description="Fallback descriptor rows used when the primary block lacks SMILES.",
+    )
+
+
+class _EntityPoly(BaseModel):
+    """Polymer-entity sub-block carrying the mutation count."""
+
+    rcsb_mutation_count: int = 0
+    """Number of reported mutations for this polymer entity."""
+
+
+class PolymerEntity(BaseModel):
+    """A parsed RCSB polymer-entity record."""
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(populate_by_name=True)
+
+    entity_poly: _EntityPoly = Field(
+        default_factory=_EntityPoly,
+        description="Polymer-entity block holding the mutation count.",
+    )
+
+
+class _PdbxEntityNonpoly(BaseModel):
+    """Non-polymer-entity sub-block carrying the component id."""
+
+    comp_id: str | None = None
+    """Chemical-component ID of the non-polymer entity, if reported."""
+
+
+class NonpolymerEntity(BaseModel):
+    """A parsed RCSB non-polymer-entity record."""
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(populate_by_name=True)
+
+    pdbx_entity_nonpoly: _PdbxEntityNonpoly = Field(
+        default_factory=_PdbxEntityNonpoly,
+        description="Non-polymer-entity block holding the component id.",
+    )
