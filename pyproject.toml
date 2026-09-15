@@ -50,3 +50,5 @@ version_file = "reqadence/_version.py"
 version_scheme = "guess-next-dev"
 local_scheme = "node-and-timestamp"
 
+[tool.setuptools.package-data]
+"reqadence" = ["py.typed"]
