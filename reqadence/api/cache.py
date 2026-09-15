@@ -11,7 +11,7 @@ strategies in API clients.
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, override
 
 import httpx
 from hishel import (
@@ -42,7 +42,7 @@ class CachePolicy(ABC):
     Default is .cache/hishel/hishel_cache.db"""
 
     @abstractmethod
-    def _build_hishel_policy(self) -> Any:
+    def _build_hishel_policy(self) -> SpecificationPolicy | FilterPolicy:
         """Return the hishel policy object for this strategy."""
         raise NotImplementedError()
 
@@ -66,13 +66,13 @@ class CachePolicy(ABC):
             default_ttl=self.default_ttl,
         )
 
-        def factory(**kwargs: Any) -> httpx.AsyncClient:
+        def factory(**kwargs: Any) -> httpx.AsyncClient:  # pyright: ignore[reportAny, reportExplicitAny]
             transport = AsyncCacheTransport(
                 next_transport=next_transport or httpx.AsyncHTTPTransport(),
                 storage=storage,
                 policy=cache_policy,
             )
-            return httpx.AsyncClient(transport=transport, **kwargs)
+            return httpx.AsyncClient(transport=transport, **kwargs)  # pyright: ignore[reportAny]
 
         return factory
 
@@ -85,7 +85,8 @@ class RFCCachePolicy(CachePolicy):
     Use for APIs that send proper cache headers.
     """
 
-    def _build_hishel_policy(self) -> Any:
+    @override
+    def _build_hishel_policy(self) -> SpecificationPolicy:
 
         return SpecificationPolicy(
             cache_options=CacheOptions(supported_methods=list(self.supported_methods))
@@ -98,25 +99,30 @@ class AlwaysCachePolicy(CachePolicy):
 
     cacheable_status_codes: frozenset[int] = frozenset({200})
 
-    def _build_hishel_policy(self) -> Any:
+    @override
+    def _build_hishel_policy(self) -> FilterPolicy:
 
         methods = frozenset(m.upper() for m in self.supported_methods)
         codes = frozenset(self.cacheable_status_codes)
 
         class _MethodFilter(BaseFilter[Request]):
+            @override
             def needs_body(self) -> bool:
                 """This filter does not require the request body."""
                 return False
 
+            @override
             def apply(self, item: Request, body: bytes | None) -> bool:
                 """Cache only if the HTTP method is in the supported methods set."""
                 return item.method.upper() in methods
 
         class _StatusFilter(BaseFilter[Response]):
+            @override
             def needs_body(self) -> bool:
                 """This filter does not require the response body."""
                 return False
 
+            @override
             def apply(self, item: Response, body: bytes | None) -> bool:
                 """
                 Cache only if the HTTP status code is in the cacheable

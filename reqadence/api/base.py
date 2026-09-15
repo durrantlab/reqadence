@@ -13,7 +13,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from enum import StrEnum
 from types import TracebackType
-from typing import Self
+from typing import Self, cast, override
 
 import httpx
 from aiolimiter import AsyncLimiter
@@ -156,13 +156,16 @@ class BaseAPI:
         Returns:
             The delay in seconds before the next retry attempt.
         """
-        if resp is not None and (value := resp.headers.get("retry-after")):
+        retry_after: str | None = (
+            resp.headers.get("retry-after") if resp is not None else None
+        )
+        if retry_after is not None:
             try:
-                return float(value)
+                return float(retry_after)
             except ValueError:
                 logger.warning(
                     "Invalid Retry-After header value: {value}. Falling back to backoff delay.",
-                    value=value,
+                    value=retry_after,
                 )
         return self.config.retry_policy.backoff_delay(attempt)
 
@@ -266,7 +269,7 @@ class BaseAPI:
         """GET and parse JSON, returning None on failure."""
         resp = await self._get(url, params=params)
         try:
-            return resp.json()
+            return cast(JSONValue, resp.json())
         except ValueError:
             logger.error("Failed to parse JSON from {url}", url=url)
             return None
@@ -288,6 +291,7 @@ class BaseAPI:
         """Ensure the underlying http client is closed when exiting the async context manager."""
         await self.aclose()
 
+    @override
     def __repr__(self) -> str:
         """Return the class and base URL for debugging purposes."""
         return f"{self.__class__.__name__}(base_url={self.base_url!r})"

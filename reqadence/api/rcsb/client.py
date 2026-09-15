@@ -4,22 +4,32 @@
 
 """RCSBClient Protein Data Bank API client and entry model."""
 
-from typing import Any, Callable
+import asyncio
+from collections.abc import Awaitable, Callable
+from typing import TypeVar
 
 import httpx
+from aiolimiter import AsyncLimiter
 from loguru import logger
-from pydantic import ValidationError
+from pydantic import BaseModel, ValidationError
 
-from reqadence.api.base import BaseAPI, JSONValue
+from reqadence.api.base import BaseAPI, ClientConfig
 from reqadence.api.cache import AlwaysCachePolicy
 from reqadence.api.errors import PermanentAPIError
-from reqadence.api.rcsb.model import RCSBEntry
+from reqadence.api.rcsb.model import (
+    ChemComp,
+    NonpolymerEntity,
+    PolymerEntity,
+    RCSBEntry,
+)
 
 RCSB_BASE_URL = "https://data.rcsb.org/rest/v1"
 """Base URL for the RCSBClient REST API endpoints."""
 
 RCSB_FILES_URL = "https://files.rcsb.org/download"
 """Base URL for the RCSBClient file download service."""
+
+_ModelT = TypeVar("_ModelT", bound=BaseModel)
 
 
 class RCSBClient(BaseAPI):
@@ -31,7 +41,10 @@ class RCSBClient(BaseAPI):
         self,
         base_url: str = RCSB_BASE_URL,
         client_factory: Callable[..., httpx.AsyncClient] | None = None,
-        **kwargs: Any,
+        *,
+        config: ClientConfig | None = None,
+        rate_limiter: AsyncLimiter | None = None,
+        sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
     ) -> None:
         """Initialize the RCSBClient with caching enabled by default.
 
@@ -41,7 +54,13 @@ class RCSBClient(BaseAPI):
         """
         if client_factory is None:
             client_factory = AlwaysCachePolicy().build_client_factory()
-        super().__init__(base_url=base_url, client_factory=client_factory, **kwargs)
+        super().__init__(
+            base_url=base_url,
+            client_factory=client_factory,
+            config=config,
+            rate_limiter=rate_limiter,
+            sleep=sleep,
+        )
 
     @staticmethod
     def _to_legacy(pdb_id: str) -> str | None:
@@ -57,6 +76,37 @@ class RCSBClient(BaseAPI):
             return pdb_id[-4:]
         return None
 
+    async def _get_model(
+        self, url: str, model: type[_ModelT], context: str
+    ) -> _ModelT | None:
+        """GET a JSON object and validate it into the given pydantic model.
+
+        Args:
+            url: Endpoint path to fetch.
+            model: The pydantic model class to validate the payload into.
+            context: Human-readable subject for log messages (e.g. the PDB ID).
+
+        Returns:
+            The validated model instance, or None if the request failed, the
+            payload was not a JSON object, or validation failed.
+        """
+        try:
+            data = await self._get_json(url)
+        except PermanentAPIError:
+            return None
+        if not isinstance(data, dict):
+            return None
+        try:
+            return model.model_validate(data)
+        except ValidationError as exc:
+            logger.error(
+                "Failed to validate {model} for {context}: {exc}",
+                model=model.__name__,
+                context=context,
+                exc=exc,
+            )
+            return None
+
     async def get_entry(self, pdb_id: str) -> RCSBEntry | None:
         """Fetch an entry record. Accepts legacy or extended PDB IDs.
 
@@ -66,32 +116,12 @@ class RCSBClient(BaseAPI):
         Returns:
             An `RCSBEntry` object if found, or None if not found.
         """
-
         pdb_id = self._to_legacy(pdb_id) or pdb_id
-        try:
-            data = await self._get_json(f"core/entry/{pdb_id}")
-        except PermanentAPIError:
-            return None
-        if not isinstance(data, dict):
-            logger.error(
-                "Unexpected response type for {pdb_id}: {type(data)}",
-                pdb_id=pdb_id,
-                type=type(data).__name__,
-            )
-            return None
-        try:
-            return RCSBEntry.model_validate(data)
-        except ValidationError as exc:
-            logger.error(
-                "Failed to validate RCSBEntry for {pdb_id}: {exc}",
-                pdb_id=pdb_id,
-                exc=exc,
-            )
-            return None
+        return await self._get_model(f"core/entry/{pdb_id}", RCSBEntry, context=pdb_id)
 
     async def _get_polymer_entity(
         self, pdb_id: str, entity_id: str
-    ) -> dict[str, Any] | None:
+    ) -> PolymerEntity | None:
         """Fetch a polymer entity record for the given PDB ID and entity ID.
 
         Args:
@@ -99,18 +129,18 @@ class RCSBClient(BaseAPI):
             entity_id: The polymer entity ID.
 
         Returns:
-            A dictionary containing the polymer entity data, or None if not found.
+            A `PolymerEntity` if found, or None if not found.
         """
         pdb_id = self._to_legacy(pdb_id) or pdb_id
-        try:
-            data = await self._get_json(url=f"core/polymer_entity/{pdb_id}/{entity_id}")
-        except PermanentAPIError:
-            return None
-        return data if isinstance(data, dict) else None
+        return await self._get_model(
+            f"core/polymer_entity/{pdb_id}/{entity_id}",
+            PolymerEntity,
+            context=f"{pdb_id}/{entity_id}",
+        )
 
     async def _get_nonpolymer_entity(
         self, pdb_id: str, entity_id: str
-    ) -> dict[str, Any] | None:
+    ) -> NonpolymerEntity | None:
         """Fetch a non-polymer entity record for the given PDB ID and entity ID.
 
         Args:
@@ -118,30 +148,27 @@ class RCSBClient(BaseAPI):
             entity_id: The non-polymer entity ID.
 
         Returns:
-            A dictionary containing the non-polymer entity data, or None if not found."""
+            A `NonpolymerEntity` if found, or None if not found.
+        """
         pdb_id = self._to_legacy(pdb_id) or pdb_id
-        try:
-            data = await self._get_json(
-                url=f"core/nonpolymer_entity/{pdb_id}/{entity_id}"
-            )
-        except PermanentAPIError:
-            return None
-        return data if isinstance(data, dict) else None
+        return await self._get_model(
+            f"core/nonpolymer_entity/{pdb_id}/{entity_id}",
+            NonpolymerEntity,
+            context=f"{pdb_id}/{entity_id}",
+        )
 
-    async def _get_chemcomp(self, comp_id: str) -> dict[str, Any] | None:
+    async def _get_chemcomp(self, comp_id: str) -> ChemComp | None:
         """Fetch a chemical component record (e.g. for SMILES lookup).
 
         Args:
             comp_id: The chemical component ID.
 
         Returns:
-            A dictionary containing the chemical component data, or None if not found.
+            A `ChemComp` if found, or None if not found.
         """
-        try:
-            data = await self._get_json(f"core/chemcomp/{comp_id}")
-        except PermanentAPIError:
-            return None
-        return data if isinstance(data, dict) else None
+        return await self._get_model(
+            f"core/chemcomp/{comp_id}", ChemComp, context=comp_id
+        )
 
     async def get_structure(self, pdb_id: str) -> tuple[str, str] | None:
         """Download a structure as PDB, falling back to mmCIF if PDB is not available.
@@ -186,27 +213,26 @@ class RCSBClient(BaseAPI):
         return self.extract_smiles(data)
 
     @staticmethod
-    def extract_smiles(chemcomp_data: dict[str, Any]) -> dict[str, str]:
+    def extract_smiles(chemcomp: ChemComp) -> dict[str, str]:
         """Extract canonical and stereo SMILES from a chem component record.
         Falls back to pdbx_chem_comp_descriptor: SMILES_CANONICAL when the
         rcsb_chem_comp_descriptor block is missing the smiles field.
 
         Args:
-            chemcomp_data: The chemical component data dictionary from the API.
+            chemcomp: The parsed chemical component record from the API.
         Returns:
             A dictionary containing the SMILES and stereo SMILES, or an empty
                 dictionary if not found
         """
-        descriptor = chemcomp_data.get("rcsb_chem_comp_descriptor", {})
-        if "SMILES" in descriptor:
+        descriptor = chemcomp.rcsb_chem_comp_descriptor
+        if descriptor is not None and descriptor.smiles is not None:
             return {
-                "smiles": descriptor["SMILES"],
-                "stereo_smiles": descriptor.get("SMILES_stereo", descriptor["SMILES"]),
+                "smiles": descriptor.smiles,
+                "stereo_smiles": descriptor.smiles_stereo or descriptor.smiles,
             }
-        for d in chemcomp_data.get("pdbx_chem_comp_descriptor", []):
-            if d.get("type") == "SMILES_CANONICAL":
-                smi = d.get("descriptor", "")
-                return {"smiles": smi, "stereo_smiles": smi}
+        for row in chemcomp.pdbx_chem_comp_descriptor:
+            if row.type == "SMILES_CANONICAL":
+                return {"smiles": row.descriptor, "stereo_smiles": row.descriptor}
 
         logger.warning("No SMILES found in chem component record.")
         return {"smiles": "", "stereo_smiles": ""}
@@ -220,7 +246,7 @@ class RCSBClient(BaseAPI):
         Returns:
             A dictionary mapping polymer entity IDs to their mutation counts.
         """
-        counts = {}
+        counts: dict[str, int] = {}
         for entity_id in entry.entity_ids["polymer"]:
             data = await self._get_polymer_entity(entry.pdb_id, entity_id)
             if data is None:
@@ -230,8 +256,7 @@ class RCSBClient(BaseAPI):
                     pdb_id=entry.pdb_id,
                 )
                 continue
-            count = data.get("entity_poly", {}).get("rcsb_mutation_count", 0)
-            counts[entity_id] = count
+            counts[entity_id] = data.entity_poly.rcsb_mutation_count
         return counts
 
     async def nonpolymer_names(self, entry: RCSBEntry) -> dict[str, str]:
@@ -245,7 +270,7 @@ class RCSBClient(BaseAPI):
         """
         if not entry.has_ligands:
             return {}
-        names = {}
+        names: dict[str, str] = {}
         for entity_id in entry.entity_ids["nonpolymer"]:
             data = await self._get_nonpolymer_entity(entry.pdb_id, entity_id)
             if data is None:
@@ -255,7 +280,7 @@ class RCSBClient(BaseAPI):
                     pdb_id=entry.pdb_id,
                 )
                 continue
-            comp_id = data.get("pdbx_entity_nonpoly", {}).get("comp_id")
+            comp_id = data.pdbx_entity_nonpoly.comp_id
             if comp_id:
                 names[entity_id] = comp_id
         return names

@@ -8,7 +8,7 @@ import os
 import sys
 from ast import literal_eval
 from importlib.metadata import PackageNotFoundError, version
-from typing import Any
+from typing import cast
 
 from loguru import logger
 
@@ -40,9 +40,9 @@ def enable_logging(
         level: Requested log level: `10` is debug, `20` is info.
         file_path: Also write logs to files here.
     """
-    config: dict[str, Any] = {"handlers": []}
+    handlers: list[dict[str, object]] = []
     if stdout_set:
-        config["handlers"].append(
+        handlers.append(
             {
                 "sink": sys.stdout,
                 "level": level_set,
@@ -51,7 +51,7 @@ def enable_logging(
             }
         )
     if isinstance(file_path, str):
-        config["handlers"].append(
+        handlers.append(
             {
                 "sink": file_path,
                 "level": level_set,
@@ -59,14 +59,13 @@ def enable_logging(
                 "colorize": colorize,
             }
         )
+    _ = logger.configure(handlers=handlers)  # pyright: ignore[reportArgumentType]
     # https://loguru.readthedocs.io/en/stable/api/logger.html#loguru._logger.Logger.configure
-    logger.configure(**config)
-
     logger.enable("reqadence")
 
 
-if literal_eval(os.environ.get("REQADENCE_LOG", "False")):
-    level = int(os.environ.get("REQADENCE_LOG_LEVEL", 20))
-    stdout = literal_eval(os.environ.get("REQADENCE_STDOUT", "True"))
-    log_file_path = os.environ.get("REQADENCE_LOG_FILE_PATH", None)
+if cast(bool, literal_eval(os.environ.get("REQADENCE_LOG", "False"))):
+    level = int(os.environ.get("REQADENCE_LOG_LEVEL") or "20")
+    stdout = cast(bool, literal_eval(os.environ.get("REQADENCE_STDOUT") or "True"))
+    log_file_path = os.environ.get("REQADENCE_LOG_FILE_PATH")
     enable_logging(level, stdout, log_file_path)

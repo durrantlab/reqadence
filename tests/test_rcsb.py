@@ -15,6 +15,7 @@ import pytest_asyncio
 from reqadence.api.base import ClientConfig
 from reqadence.api.cache import AlwaysCachePolicy, RFCCachePolicy
 from reqadence.api.rcsb import RCSBClient, RCSBEntry
+from reqadence.api.rcsb.model import ChemComp
 from reqadence.api.retry import RetryPolicy
 
 _ENTRY_6OAV = {
@@ -244,7 +245,7 @@ def test_extract_smiles():
             "SMILES_stereo": "CC[OH]",
         }
     }
-    assert RCSBClient.extract_smiles(data) == {
+    assert RCSBClient.extract_smiles(ChemComp.model_validate(data)) == {
         "smiles": "CCO",
         "stereo_smiles": "CC[OH]",
     }
@@ -256,12 +257,12 @@ def test_extract_smiles():
             {"type": "SMILES_CANONICAL", "descriptor": "CCO"},
         ],
     }
-    assert RCSBClient.extract_smiles(data) == {
+    assert RCSBClient.extract_smiles(ChemComp.model_validate(data)) == {
         "smiles": "CCO",
         "stereo_smiles": "CCO",
     }
 
-    assert RCSBClient.extract_smiles({}) == {"smiles": "", "stereo_smiles": ""}
+    assert RCSBClient.extract_smiles(ChemComp()) == {"smiles": "", "stereo_smiles": ""}
 
 
 async def test_get_entry(rcsb):

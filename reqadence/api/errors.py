@@ -9,9 +9,9 @@
 class APIError(Exception):
     def __init__(self, url: str, status_code: int | None = None) -> None:
         """Base class for API failures, distinguishing retryable errors from permanent ones."""
-        self.url = url
+        self.url: str = url
         """The URL of the API endpoint."""
-        self.status_code = status_code
+        self.status_code: int | None = status_code
         """The HTTP status code of the API response, if available."""
         message = f"{url} (HTTP {status_code})" if status_code else url
         super().__init__(message)
