@@ -10,7 +10,7 @@ import httpx
 from loguru import logger
 from pydantic import ValidationError
 
-from reqadence.api.base import BaseAPI, JSONValue
+from reqadence.api.base import BaseAPI
 from reqadence.api.cache import AlwaysCachePolicy
 from reqadence.api.errors import PermanentAPIError
 from reqadence.api.rcsb.model import RCSBEntry

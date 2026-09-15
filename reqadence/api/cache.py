@@ -11,7 +11,7 @@ strategies in API clients.
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, override
 
 import httpx
 from hishel import (
@@ -85,6 +85,7 @@ class RFCCachePolicy(CachePolicy):
     Use for APIs that send proper cache headers.
     """
 
+    @override
     def _build_hishel_policy(self) -> Any:
 
         return SpecificationPolicy(
@@ -98,25 +99,30 @@ class AlwaysCachePolicy(CachePolicy):
 
     cacheable_status_codes: frozenset[int] = frozenset({200})
 
+    @override
     def _build_hishel_policy(self) -> Any:
 
         methods = frozenset(m.upper() for m in self.supported_methods)
         codes = frozenset(self.cacheable_status_codes)
 
         class _MethodFilter(BaseFilter[Request]):
+            @override
             def needs_body(self) -> bool:
                 """This filter does not require the request body."""
                 return False
 
+            @override
             def apply(self, item: Request, body: bytes | None) -> bool:
                 """Cache only if the HTTP method is in the supported methods set."""
                 return item.method.upper() in methods
 
         class _StatusFilter(BaseFilter[Response]):
+            @override
             def needs_body(self) -> bool:
                 """This filter does not require the response body."""
                 return False
 
+            @override
             def apply(self, item: Response, body: bytes | None) -> bool:
                 """
                 Cache only if the HTTP status code is in the cacheable

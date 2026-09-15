@@ -13,7 +13,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from enum import StrEnum
 from types import TracebackType
-from typing import Self
+from typing import Self, override
 
 import httpx
 from aiolimiter import AsyncLimiter
@@ -288,6 +288,7 @@ class BaseAPI:
         """Ensure the underlying http client is closed when exiting the async context manager."""
         await self.aclose()
 
+    @override
     def __repr__(self) -> str:
         """Return the class and base URL for debugging purposes."""
         return f"{self.__class__.__name__}(base_url={self.base_url!r})"
