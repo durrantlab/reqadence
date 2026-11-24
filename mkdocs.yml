@@ -77,6 +77,10 @@ plugins:
             parameter_headings: false
             show_symbol_type_heading: true
             show_symbol_type_toc: true
+            members_order: source
+            extensions:
+              - griffe_pydantic:
+                  schema: false
   - mkdocs-jupyter:
         no_input: False
         include_requirejs: true
