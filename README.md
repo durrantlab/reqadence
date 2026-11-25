@@ -2,27 +2,23 @@
 
 <h4 align="center">Async foundation for REST API clients with retries, rate limiting, and response caching.</h4>
 
-reqadence is a small, reusable base layer for building asynchronous REST API
-clients in Python. Instead of re-implementing the same request-handling logic
-for every service, you subclass a single base class and get automatic retries,
-rate limiting, response caching, and JSON parsing out of the box.
+reqadence is a small, reusable base layer for building asynchronous REST API clients in Python.
+Instead of re-implementing the same request-handling logic for every service, you subclass a single base class and get automatic retries, rate limiting, response caching, and JSON parsing out of the box.
 
-It is built on top of [httpx](https://www.python-httpx.org/) and is designed to
-be the shared foundation for higher-level clients. It also ships with a
-ready-to-use client for the [RCSB Protein Data Bank](https://www.rcsb.org/),
-which doubles as a reference implementation for building your own.
+It is built on top of [httpx](https://www.python-httpx.org/) and is designed to be the shared foundation for higher-level clients.
+It also ships with a ready-to-use client for the [RCSB Protein Data Bank](https://www.rcsb.org/), which doubles as a reference implementation for building your own.
+
+Full documentation, including the API reference, is at <https://durrantlab.github.io/reqadence/>.
 
 ## Features
 
 - Async-first HTTP client built on `httpx`.
-- Automatic retries with exponential backoff and full jitter, honoring
-  `Retry-After` headers.
+- Automatic retries with exponential backoff and full jitter, honoring `Retry-After` headers.
 - Leaky-bucket rate limiting via `aiolimiter`.
 - Pluggable response caching (RFC 9111 or force-cache) via `hishel`.
 - A clear error hierarchy distinguishing transient from permanent failures.
 - Fully typed, with JSON and XML response support.
-- A built-in RCSB Protein Data Bank client (`RCSBClient`) for fetching entry
-  metadata, structure files, and ligand data.
+- A built-in RCSB Protein Data Bank client (`RCSBClient`) for fetching entry metadata, structure files, and ligand data.
 
 ## Installation
 
@@ -39,9 +35,8 @@ cd reqadence
 pixi install
 ```
 
-This creates an isolated environment with all dependencies and installs
-`reqadence` into it (as an editable install, per the project's
-`pypi-dependencies`). Activate the environment with:
+This creates an isolated environment with all dependencies and installs `reqadence` into it (as an editable install, per the project's `pypi-dependencies`).
+Activate the environment with:
 
 ```bash
 pixi shell
@@ -49,9 +44,7 @@ pixi shell
 
 ## Usage
 
-reqadence ships with `RCSBClient`, an async client for the
-[RCSB Protein Data Bank](https://www.rcsb.org/) with retries, rate limiting, and
-caching built in:
+reqadence ships with `RCSBClient`, an async client for the [RCSB Protein Data Bank](https://www.rcsb.org/) with retries, rate limiting, and caching built in:
 
 ```python
 import asyncio
@@ -69,20 +62,30 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-`RCSBClient` can also enrich entries with ligand and mutation data through
-(`get_enriched_entry`), download structure files (`get_structure`), and resolve
-ligand SMILES (`get_ligand_smiles`). See the docstrings for the full API.
+`RCSBClient` can also enrich entries with ligand and mutation data (`get_enriched_entry`), download structure files (`get_structure`), and resolve ligand SMILES (`get_ligand_smiles`).
+See the [API reference](https://durrantlab.github.io/reqadence/api/reqadence/) for the full API.
 
-To build a client for another service, subclass `BaseAPI` the same way as [`RCSBClient`](https://github.com/durrantlab/reqadence/blob/main/reqadence/api/rcsb/client.py)
+To build a client for another service, subclass `BaseAPI` the same way as [`RCSBClient`](https://github.com/durrantlab/reqadence/blob/main/reqadence/api/rcsb/client.py).
+
+### Logging
+
+reqadence logs through [loguru](https://loguru.readthedocs.io/) and is silent by default.
+Call `reqadence.enable_logging(level)` to turn logging on, or set these environment variables before importing the package:
+
+| Variable                  | Meaning                                                  | Default |
+| ------------------------- | -------------------------------------------------------- | ------- |
+| `REQADENCE_LOG`           | Enable logging (`1`, `true`, `yes`, or `on`).            | off     |
+| `REQADENCE_LOG_LEVEL`     | Minimum level, as a number (`10`) or a name (`DEBUG`).   | `20`    |
+| `REQADENCE_STDOUT`        | Log to standard output.                                  | on      |
+| `REQADENCE_LOG_FILE_PATH` | Also write logs to this file.                            | unset   |
+
+Enabling logging replaces any handlers already configured on loguru's global logger.
 
 ## Development
 
-We use [pixi](https://pixi.sh/latest/) to manage Python environments and
-simplify the developer workflow. If you have already run `pixi install` (see
-[Installation](#installation)), the development environment is ready to use.
-
+We use [pixi](https://pixi.sh/latest/) to manage Python environments and simplify the developer workflow.
+Run `pixi install` to set up the development environment, then see the [development guide](https://durrantlab.github.io/reqadence/development/) for testing, documentation, and release tasks.
 
 ## License
 
-This project is released under the Apache-2.0 License as specified in
-`LICENSE.md`.
+This project is released under the Apache-2.0 License as specified in `LICENSE.md`.

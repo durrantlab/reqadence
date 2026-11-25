@@ -1,125 +1,131 @@
 # Development
 
-This comprehensive guide provides detailed instructions to help maintainers effectively develop, test, document, build, and release new versions of `reqadence`.
+This guide covers how to develop, test, document, build, and release `reqadence`.
 
-## Setting up the Development Environment
+## Setting up the development environment
 
-`reqadence` utilizes [`pixi`](https://pixi.sh/latest/) for managing environments and dependencies, streamlining the setup process. Follow these precise steps to configure your development environment:
+`reqadence` uses [pixi](https://pixi.sh/latest/) to manage environments and dependencies.
 
 1.  **Clone the repository:**
-    Begin by obtaining a local copy of the `reqadence` codebase:
 
     ```bash
-    git clone git@GitHub.com:Durrant lab/reqadence.git
+    git clone git@github.com:durrantlab/reqadence.git
     cd reqadence
     ```
-2.  **Install dependencies:**
-    Install all necessary dependencies by running:
+
+2.  **Install the development environment:**
 
     ```bash
     pixi install
     ```
-3.  **Activate the development environment:**
-    To enter the isolated virtual environment configured specifically for `reqadence` development, execute:
+
+3.  **Activate it** (optional; `pixi run` works without it):
 
     ```bash
     pixi shell
     ```
 
-You are now fully prepared and equipped to develop `reqadence`.
+The workspace defines these environments:
 
-## Code Formatting and Style Guide
+| Environment                        | Purpose                                                                 |
+| ---------------------------------- | ----------------------------------------------------------------------- |
+| `default`                          | Development: tests, linting, type checking, and packaging on the newest Python. |
+| `py312`, `py313`, `py314`, `py315` | Tests on each supported Python version.                                 |
+| `lowest`                           | Tests on Python 3.12 with the oldest dependency versions `pyproject.toml` allows. |
+| `docs`                             | [Zensical](https://zensical.org/) and mkdocstrings for the docs.        |
 
-Maintaining consistent style and formatting across the codebase is crucial for readability and maintainability.
-`reqadence` employs automated formatting tools configured to enforce standardized style guidelines.
-Execute the following command to apply formatting automatically:
+`reqadence` is installed into every environment as an editable package, so source changes take effect immediately.
+Its runtime dependencies come from `pyproject.toml`, so they are declared in one place.
 
-```bash
-pixi run format
-```
+## Formatting, linting, and type checking
 
-This command sequentially runs `black` for Python formatting, `isort` for managing imports, and `markdownlint-cli2` to enforce markdown formatting standards, ensuring your contributions align with project conventions.
-
-## Documentation
-
-`reqadence`'s documentation is built using MkDocs, allowing easy creation and maintenance of high-quality documentation.
-To locally preview documentation changes, serve the documentation by running:
+`reqadence` uses [ruff](https://docs.astral.sh/ruff/) for formatting and linting and [ty](https://docs.astral.sh/ty/) for type checking.
+Both target Python 3.12, the oldest supported version.
 
 ```bash
-pixi run -e docs serve-docs
+pixi run format     # sort imports and format the code
+pixi run lint       # check lint rules and formatting without changing files
+pixi run typecheck  # type-check the package
 ```
 
-After execution, open your web browser and visit [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/) to review changes in real-time.
+CI runs `lint` and `typecheck` on every pull request.
 
 ## Testing
 
-Writing and maintaining tests is essential for ensuring code correctness, reliability, and stability.
-Execute `reqadence`'s tests with:
-
 ```bash
-pixi run -e dev tests
+pixi run tests              # newest Python
+pixi run -e py312 tests     # a specific Python version
+pixi run -e lowest tests    # oldest allowed dependency versions
+pixi run coverage           # report coverage from the last test run
 ```
 
-Additionally, you can evaluate test coverage to identify untested areas and improve overall reliability by running:
+CI runs the tests in every test environment on Linux, and on the newest Python on Windows and macOS.
+If you raise a minimum version in `pyproject.toml`, run `pixi update` so the `lowest` environment follows it.
+
+## Documentation
+
+The documentation is built with [Zensical](https://zensical.org/) and configured in `zensical.toml`.
+To preview changes locally, run:
 
 ```bash
-pixi run -e dev coverage
+pixi run -e docs serve
 ```
 
-Review the generated coverage reports to address any gaps in testing.
+Then open [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/).
+The preview rebuilds when you edit the docs, the README, or the package source.
 
-## Building the Package
-
-Prepare `reqadence` for publishing or distribution by building the package.
-Execute:
+To build the site into `public/` the same way CI does, run:
 
 ```bash
-pixi run build
+pixi run -e docs docs --strict
 ```
 
-Upon completion, inspect the `dist` directory for the generated distribution files, which are ready for publication.
+The API reference is generated from docstrings, one page per module, so new modules appear without any extra configuration.
+Docstrings use the Google style.
+To link to another object, use its full import path, for example `[ClientConfig][reqadence.api.base.ClientConfig]`.
 
-## Bumping Version
+Pushes to `main` deploy the documentation to GitHub Pages.
+Pull requests build it in strict mode, so broken links or docstrings fail the check.
 
-Releasing new versions involves explicitly updating version identifiers.
-Always modify the version number consistently in these two critical files:
+## Versioning
 
--   `pyproject.toml`
--   `pixi.toml`
+The version is derived from git tags by [setuptools-scm](https://setuptools-scm.readthedocs.io/); it is not written in any file.
+To release a new version:
 
-Verify that the updated version numbers match exactly, avoiding discrepancies and potential deployment issues.
+1.  Move the `Unreleased` entries in `CHANGELOG.md` under a heading for the new version.
+2.  Commit, then create an annotated tag on that commit and push it:
+
+    ```bash
+    git tag -a v0.4.0 -m "v0.4.0"
+    git push origin v0.4.0
+    ```
+
+A build from an untagged or modified checkout gets a development version such as `0.4.1.dev3+g1a2b3c4`.
+
+## Building the package
+
+```bash
+pixi run build       # build the sdist and wheel into dist/
+pixi run check-dist  # build, then validate the distributions with twine
+```
+
+`build` empties `build/` and `dist/` first, so `dist/` only ever holds the current build.
 
 ## Publishing to PyPI
 
-Once the version number is updated and the package is built, it can be published to PyPI.
-Execute:
+Publish from a clean checkout of a release tag, so the distributions carry the release version.
+PyPI rejects development versions that carry a local `+g...` suffix.
 
-```bash
-pixi run publish
-```
-
-For preliminary testing or release candidates, it is highly recommended to publish to TestPyPI first.
-Execute:
+To try a release on TestPyPI first, run:
 
 ```bash
 pixi run publish-test
 ```
 
-Publishing to TestPyPI allows you to validate packaging correctness and installation processes without affecting production users.
+When that looks right, publish to PyPI:
 
-## Maintenance Best Practices
+```bash
+pixi run publish
+```
 
-To maintain high quality and reliability of `reqadence`, adhere to the following best practices:
-
--   Regularly synchronize your local repository with the main branch to incorporate the latest updates:
-
-    ```bash
-    git pull origin main
-    ```
--   Frequently review and address open issues and pull requests on GitHub.
--   Clearly document changes in commit messages, issue descriptions, and pull requests.
--   Routinely verify dependencies and update them as necessary to maintain compatibility and security.
-
-Adhering to these guidelines ensures a robust, stable, and continuously improving `reqadence` project.
-
-This expanded documentation guide covers the entire workflow comprehensively, providing clarity and precision for effective `reqadence` project maintenance.
+Both tasks rebuild and check the distributions before uploading.

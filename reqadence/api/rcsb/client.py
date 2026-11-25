@@ -2,7 +2,7 @@
 # Copyright 2026 University of Pittsburgh — Of the Commonwealth System of Higher Education
 # Source: https://github.com/durrantlab/reqadence
 
-"""RCSBClient Protein Data Bank API client and entry model."""
+"""RCSB Protein Data Bank API client."""
 
 import asyncio
 from collections.abc import Awaitable, Callable
@@ -24,16 +24,16 @@ from reqadence.api.rcsb.model import (
 )
 
 RCSB_BASE_URL = "https://data.rcsb.org/rest/v1"
-"""Base URL for the RCSBClient REST API endpoints."""
+"""Base URL for the RCSB REST API endpoints."""
 
 RCSB_FILES_URL = "https://files.rcsb.org/download"
-"""Base URL for the RCSBClient file download service."""
+"""Base URL for the RCSB file download service."""
 
 _ModelT = TypeVar("_ModelT", bound=BaseModel)
 
 
 class RCSBClient(BaseAPI):
-    """Client for the RCSBClient REST API and file download service.
+    """Client for the RCSB REST API and file download service.
     Supports both legacy 4-character PDB IDs and newer 12-character IDs.
     """
 
@@ -49,8 +49,9 @@ class RCSBClient(BaseAPI):
         """Initialize the RCSBClient with caching enabled by default.
 
         Args:
-            base_url: Base URL for the RCSBClient API endpoints.
-            client_factory: The RCSBClient client factory. Defaults is `AlwaysCachePolicy`
+            base_url: Base URL for the RCSB API endpoints.
+            client_factory: Factory for the underlying `httpx.AsyncClient`. Defaults to a
+                client cached with `AlwaysCachePolicy`.
         """
         if client_factory is None:
             client_factory = AlwaysCachePolicy().build_client_factory()
@@ -65,8 +66,8 @@ class RCSBClient(BaseAPI):
     @staticmethod
     def _to_legacy(pdb_id: str) -> str | None:
         """Convert a PDB ID to its 4-character legacy form, if one exists.
-        NOTE: This is a temporary workaround. The RCSBClient data API does not
-        currently accept extended IDs. This bridge can be removed once RCSBClient
+        NOTE: This is a temporary workaround. The RCSB data API does not
+        currently accept extended IDs. This bridge can be removed once RCSB
         extends data API support.
         """
         pdb_id = pdb_id.lower()
