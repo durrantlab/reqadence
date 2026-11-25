@@ -2,31 +2,81 @@ name: Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  build:
+  checks:
+    name: Lint, typecheck, and package
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          # setuptools-scm derives the package version from git tags.
+          fetch-depth: 0
 
       - name: Install pixi
-        uses: prefix-dev/setup-pixi@v0.8.8
+        uses: prefix-dev/setup-pixi@v0.11.3
         with:
-          locked: false
-          frozen: false
+          environments: default
+          locked: true
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
 
-      - name: Setup environment
-        run: pixi install -e dev
+      - name: Lint and format check
+        run: pixi run lint
+
+      - name: Typecheck
+        run: pixi run typecheck
+
+      - name: Build and check distributions
+        run: pixi run check-dist
+
+  tests:
+    name: Tests (${{ matrix.environment }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        environment: [py312, py313, py314, py315, lowest]
+        include:
+          - os: windows-latest
+            environment: py315
+          - os: macos-latest
+            environment: py315
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Install pixi
+        uses: prefix-dev/setup-pixi@v0.11.3
+        with:
+          environments: ${{ matrix.environment }}
+          locked: true
+          cache: true
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
 
       - name: Run tests
-        run: pixi run tests
+        run: pixi run -e ${{ matrix.environment }} tests
 
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.environment == 'py315'
+        uses: codecov/codecov-action@v7
+        with:
+          files: coverage.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
