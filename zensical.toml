@@ -1,0 +1,112 @@
+[project]
+site_name = "reqadence"
+site_description = "Async foundation for REST API clients with retries, rate limiting, and response caching."
+site_author = "Durrant Lab"
+site_url = "https://durrantlab.github.io/reqadence/"
+repo_name = "durrantlab/reqadence"
+repo_url = "https://github.com/durrantlab/reqadence"
+copyright = "Copyright &copy; 2026 University of Pittsburgh, licensed under <a href=\"https://www.apache.org/licenses/LICENSE-2.0\">Apache-2.0</a>"
+docs_dir = "docs"
+site_dir = "public"
+watch = ["reqadence", "README.md"]
+
+nav = [
+    { "Home" = "index.md" },
+    { "API" = "api/" },
+    { "Development" = "development.md" },
+]
+
+extra_css = ["css/mkdocstrings.css"]
+
+[project.extra]
+generator = false
+
+[project.theme]
+language = "en"
+features = [
+    "content.code.annotate",
+    "content.code.copy",
+    "content.code.select",
+    "content.tooltips",
+    "content.tabs.link",
+    "navigation.tabs",
+    "navigation.tabs.sticky",
+    "navigation.tracking",
+    "navigation.top",
+    "navigation.indexes",
+    "navigation.path",
+    "navigation.prune",
+    "toc.follow",
+    "search.suggest",
+]
+
+[project.theme.font]
+text = "Roboto"
+code = "Roboto Mono"
+
+[project.theme.icon]
+repo = "fontawesome/brands/github"
+annotation = "material/star-four-points-circle"
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "material/lightbulb-outline"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "material/lightbulb"
+toggle.name = "Switch to light mode"
+
+[project.plugins.api-autonav]
+modules = ["reqadence"]
+nav_section_title = "API"
+api_root_uri = "api"
+
+[project.plugins.git-revision-date-localized]
+type = "iso_datetime"
+timezone = "America/Detroit"
+fallback_to_build_date = true
+
+[project.plugins.mkdocstrings.handlers.python]
+inventories = ["https://docs.python.org/3/objects.inv"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+show_source = false
+show_root_heading = false
+annotations_path = "brief"
+docstring_style = "google"
+merge_init_into_class = true
+docstring_section_style = "spacy"
+show_if_no_docstring = true
+show_labels = false
+parameter_headings = false
+show_symbol_type_heading = true
+show_symbol_type_toc = true
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+tables = {}
+toc = { permalink = true }
+"pymdownx.betterem" = {}
+"pymdownx.caret" = {}
+"pymdownx.details" = {}
+"pymdownx.highlight" = { anchor_linenums = true, line_spans = "__span", pygments_lang_class = true }
+"pymdownx.inlinehilite" = {}
+"pymdownx.keys" = {}
+"pymdownx.mark" = {}
+"pymdownx.smartsymbols" = {}
+"pymdownx.snippets" = {}
+"pymdownx.tabbed" = { alternate_style = true }
+"pymdownx.tasklist" = { custom_checkbox = true }
+"pymdownx.tilde" = {}
+
+[project.markdown_extensions."pymdownx.superfences"]
+custom_fences = [
+    { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]

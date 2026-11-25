@@ -1,48 +1,45 @@
-/*Indentation.*/
-div.doc-contents:not(.first) {
-    padding-left: 35px; /*25px is the default*/
-    border-left: .15rem solid #ededed;
+/*
+ * mkdocstrings styles for Zensical (classic or modern) and Material for MkDocs.
+ *
+ * Optional overrides, settable on :root or any ancestor element:
+ *   --doc-heading-font-size    member heading size (default 1em, the body text size)
+ *   --doc-contents-indent      indent of nested members (default 1.75rem)
+ *   --doc-contents-rule-color  indent guide color (default: the theme's table border color)
+ *
+ * Defaults are var() fallbacks at the point of use, so theme colors resolve
+ * inside the active light or dark scheme rather than once on :root.
+ */
+
+/* Member headings share one size; the page title (h1) keeps the theme's size. */
+.md-typeset .doc-heading:not(h1) {
+    font-size: var(--doc-heading-font-size, 1em);
 }
 
-.doc-heading .highlight {
-    font-size: 18px;
+/* The symbol badge, name, and signature match their heading. Two classes are
+   needed to outrank the theme's `.md-typeset code` and `code.doc-symbol`. */
+.md-typeset .doc-heading code {
+    font-size: inherit;
+}
+
+.md-typeset .doc-heading code:not(.doc-symbol) {
     background-color: transparent;
 }
 
-/*Mark external links as such. */
-a.external::after,
-a.autorefs-external::after {
-    /* <https://primer.style/octicons/arrow-up-right-24>*/
-    mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.25 15.5a.75.75 0 00.75-.75v-9a.75.75 0 00-.75-.75h-9a.75.75 0 000 1.5h7.19L6.22 16.72a.75.75 0 101.06 1.06L17.5 7.56v7.19c0 .414.336.75.75.75z"></path></svg>');
-    -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.25 15.5a.75.75 0 00.75-.75v-9a.75.75 0 00-.75-.75h-9a.75.75 0 000 1.5h7.19L6.22 16.72a.75.75 0 101.06 1.06L17.5 7.56v7.19c0 .414.336.75.75.75z"></path></svg>');
-    content: ' ';
+.md-typeset .doc-contents:not(.first) {
+    padding-inline-start: var(--doc-contents-indent, 1.75rem);
+    border-inline-start: 0.15rem solid
+        var(--doc-contents-rule-color, var(--md-typeset-table-color));
+}
 
+/* Arrow after links into other projects' docs. currentcolor follows the link's
+   own color, including the theme's hover and focus states. */
+.md-typeset a.autorefs-external::after {
+    content: "";
     display: inline-block;
-    vertical-align: middle;
-    position: relative;
-
-    height: 1em;
     width: 1em;
-    background-color: var(--md-typeset-a-color);
-}
-
-a.external:hover::after,
-a.autorefs-external:hover::after {
-    background-color: var(--md-accent-fg-color);
-}
-
-/* Fancier color for operators such as * and |. */
-.doc-signature .o {
-    color: var(--md-code-hl-special-color);
-  }
-
-/* Fancier color for constants such as None, True, and False. */
-.doc-signature .kc {
-    color: var(--md-code-hl-constant-color);
-}
-
-/* Fancier color for built-in types (only useful when cross-references are used). */
-.doc-signature .n > a[href^="https://docs.python.org/"][href*="/functions.html#"],
-.doc-signature .n > a[href^="https://docs.python.org/"][href*="/stdtypes.html#"] {
-    color: var(--md-code-hl-constant-color);
+    height: 1em;
+    vertical-align: middle;
+    background-color: currentcolor;
+    mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.25 15.5a.75.75 0 0 0 .75-.75v-9a.75.75 0 0 0-.75-.75h-9a.75.75 0 0 0 0 1.5h7.19L6.22 16.72a.75.75 0 1 0 1.06 1.06L17.5 7.56v7.19c0 .414.336.75.75.75z"/></svg>')
+        center / contain no-repeat;
 }

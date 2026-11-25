@@ -3,55 +3,62 @@ name: Documentation
 on:
   push:
     branches: ["main"]
-
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  group: docs-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  deploy:
-    name: docs
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
+    name: Build docs
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
+          # git-revision-date-localized reads each page's git history.
           fetch-depth: 0
 
       - name: Install pixi
-        uses: prefix-dev/setup-pixi@v0.8.8
+        uses: prefix-dev/setup-pixi@v0.11.3
         with:
-          locked: false
-          frozen: false
+          environments: docs
+          locked: true
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
 
-      - name: Setup environment
-        run: pixi install -e docs
-
       - name: Build documentation
-        run: pixi run docs
+        run: pixi run -e docs docs --strict
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
         with:
-          path: 'public/'
+          path: public/
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
-
+        uses: actions/deploy-pages@v5

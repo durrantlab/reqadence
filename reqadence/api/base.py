@@ -97,9 +97,9 @@ class BaseAPI:
         Args:
             base_url: Base URL for the API endpoints.
             config: Client configuration.
-                Defaults to [ClientConfig][api.base.ClientConfig] if none is provided.
+                Defaults to [ClientConfig][reqadence.api.base.ClientConfig] if none is provided.
             rate_limiter: AsyncLimiter instance for rate limiting. Defaults to
-                [DEFAULT_RATE_PER_SECOND][api.base.DEFAULT_RATE_PER_SECOND] If none is provided.
+                [DEFAULT_RATE_PER_SECOND][reqadence.api.base.DEFAULT_RATE_PER_SECOND] If none is provided.
             client_factory: A callable that returns an `httpx.AsyncClient` instance.
             sleep: A callable for sleeping between retries. Defaults to `asyncio.sleep`.
         """
@@ -125,7 +125,7 @@ class BaseAPI:
         Returns:
             A dict containing at least `accept` set to `application/json` or `application/xml`
                 depending on the configured response format.
-                Any additional headers provided in the `[ClientConfig][api.base.ClientConfig]
+                Any additional headers provided in the [ClientConfig][reqadence.api.base.ClientConfig]
                 may overwrite the defaults to add or replace headers
         """
         accept = (

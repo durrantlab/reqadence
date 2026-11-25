@@ -7,8 +7,15 @@
 
 
 class APIError(Exception):
+    """Base class for API failures, distinguishing retryable errors from permanent ones."""
+
     def __init__(self, url: str, status_code: int | None = None) -> None:
-        """Base class for API failures, distinguishing retryable errors from permanent ones."""
+        """Initialize the error.
+
+        Args:
+            url: The URL of the failed request.
+            status_code: The HTTP status code of the response, if one was received.
+        """
         self.url: str = url
         """The URL of the API endpoint."""
         self.status_code: int | None = status_code
@@ -18,7 +25,7 @@ class APIError(Exception):
 
 
 class PermanentAPIError(APIError):
-    """Non-retryable status: a code not in the [`retry policy's`][api.retry.RetryPolicy.retryable_status_codes] set of status codes."""
+    """Non-retryable status: a code not in the [`retry policy's`][reqadence.api.retry.RetryPolicy.retryable_status_codes] set of status codes."""
 
 
 class TransientAPIError(APIError):
