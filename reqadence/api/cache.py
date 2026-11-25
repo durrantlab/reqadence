@@ -31,7 +31,7 @@ class CachePolicy(ABC):
     """Configuration for HTTP response caching."""
 
     default_ttl: int | None = 3600
-    """Default time-to-live (TTL) in seconds for cached responses. 
+    """Default time-to-live (TTL) in seconds for cached responses.
         Default is 3600 sec (i.e., 1 hr)"""
 
     supported_methods: frozenset[str] = frozenset({"GET", "HEAD"})
@@ -66,13 +66,13 @@ class CachePolicy(ABC):
             default_ttl=self.default_ttl,
         )
 
-        def factory(**kwargs: Any) -> httpx.AsyncClient:  # pyright: ignore[reportAny, reportExplicitAny]
+        def factory(**kwargs: Any) -> httpx.AsyncClient:
             transport = AsyncCacheTransport(
                 next_transport=next_transport or httpx.AsyncHTTPTransport(),
                 storage=storage,
                 policy=cache_policy,
             )
-            return httpx.AsyncClient(transport=transport, **kwargs)  # pyright: ignore[reportAny]
+            return httpx.AsyncClient(transport=transport, **kwargs)
 
         return factory
 

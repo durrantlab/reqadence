@@ -1,10 +1,8 @@
 [run]
 branch = true
 data_file = .coverage
-source = "tests"
-
-[paths]
 source = reqadence
+omit = reqadence/_version.py
 
 [report]
 show_missing = true

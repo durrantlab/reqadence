@@ -11,6 +11,7 @@ __pycache__
 .idea/
 
 public/
+site/
 
 .cache
 
@@ -29,4 +30,5 @@ report.xml
 
 licenses
 reqadence/_version.py
+build/
 dist/
